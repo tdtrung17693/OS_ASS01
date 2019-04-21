@@ -4,7 +4,8 @@
 #include <linux/sched.h>
 #include <linux/uaccess.h>
 
-struct proc_segs {
+struct proc_segs
+{
 	unsigned long mssv;
 	unsigned long pcount;
 	unsigned long long run_delay;
@@ -12,14 +13,17 @@ struct proc_segs {
 	unsigned long long last_queued;
 };
 
-asmlinkage long sys_procsched(int pid, struct proc_segs * info) {
+asmlinkage long
+sys_procsched(int pid, struct proc_segs * info)
+{
 	struct task_struct * task;
 	struct proc_segs tInfo;
 	int r;
- 	task = find_task_by_vpid(pid);
-	if (!task) return -1;
-	
 
+ 	task = find_task_by_vpid(pid);
+
+	if (task != NULL) return -1;
+	
 	tInfo.mssv = 1820081;
 	tInfo.pcount = task->sched_info.pcount;
 	tInfo.run_delay = task->sched_info.run_delay;
